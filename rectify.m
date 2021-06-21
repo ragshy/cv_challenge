@@ -1,13 +1,14 @@
-I1 = imread('yellowstone_left.png');
-I2 = imread('yellowstone_right.png');
+function I2_Rect = rectify(ImageName1,ImageName2)
 
-%I1 = imread('Kuwait/2015_02.jpg');
-%I2 = imread('Kuwait/2015_10.jpg');
+%I1 = imread('yellowstone_left.png');
+%I2 = imread('yellowstone_right.png');
+I1 = imread('Wiesn/2020_03.jpg');
+I2 = imread('Wiesn/2021_06.jpg');
 %% crop out google earth watermark
-%crop = [0,0,1570,1000];
+crop = [0,0,1570,1000];
 
-I1_cropped = I1;% imcrop(I1,crop);
-I2_cropped = I2;% imcrop(I2,crop);
+I1_cropped = imcrop(I1,crop);
+I2_cropped = imcrop(I2,crop);
 
 figure
 imshowpair(I1_cropped,I2_cropped,'montage')
@@ -38,38 +39,16 @@ figure;
 showMatchedFeatures(I1_cropped, I2_cropped, matchedPoints1, matchedPoints2);
 legend('Putatively matched points in I1', 'Putatively matched points in I2');
 
+%% rigid transform/rectify
+A = matchedPoints1.Location;
+B = matchedPoints2.Location;
 
-%% remove outliers
-[fMatrix, epipolarInliers, status] = estimateFundamentalMatrix(...
-  matchedPoints1, matchedPoints2, 'Method', 'RANSAC', ...
-  'NumTrials', 10000, 'DistanceThreshold', 0.5, 'Confidence', 70.00);
+[R,t] = rigid_transform(A.',B.')
+tform2 = rigid2d(R,t');
 
-if status ~= 0 || isEpipoleInImage(fMatrix, size(I1_cropped)) ...
-  || isEpipoleInImage(fMatrix', size(I2_cropped))
-  error(['Either not enough matching points were found or '...
-         'the epipoles are inside the images. You may need to '...
-         'inspect and improve the quality of detected features ',...
-         'and/or improve the quality of your images.']);
+%% show rectified
+I2_Rect = imwarp(I2_cropped,tform2);
+figure;
+imshowpair(I1_cropped,I2_Rect,'montage')
+
 end
-
-inlierPoints1 = matchedPoints1(epipolarInliers, :);
-inlierPoints2 = matchedPoints2(epipolarInliers, :);
-
-figure;
-showMatchedFeatures(I1_cropped, I2_cropped, inlierPoints1, inlierPoints2);
-legend('Inlier points in I1', 'Inlier points in I2');
-
-%% rectify
-[t1, t2] = estimateUncalibratedRectification(fMatrix, ...
-  matchedPoints1.Location, matchedPoints2.Location, size(I2_cropped));
-tform1 = projective2d(t1);
-tform2 = projective2d(t2);
-
-[I1Rect, I2Rect] = rectifyStereoImages(I1, I2, tform1, tform2);
-figure;
-imshow(stereoAnaglyph(I1Rect, I2Rect));
-title('Rectified Stereo Images (Red - Left Image, Cyan - Right Image)');
-
-figure;
-imshowpair(I1Rect, I2Rect,'montage');
-
