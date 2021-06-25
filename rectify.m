@@ -2,8 +2,8 @@ function I2_Rect = rectify(ImageName1,ImageName2)
 
 %I1 = imread('yellowstone_left.png');
 %I2 = imread('yellowstone_right.png');
-I1 = imread('Wiesn/2020_03.jpg');
-I2 = imread('Wiesn/2021_06.jpg');
+I1 = imread('Datasets/Wiesn/2020_03.jpg');
+I2 = imread('Datasets/Wiesn/2021_06.jpg');
 %% crop out google earth watermark
 crop = [0,0,1570,1000];
 
@@ -43,7 +43,7 @@ legend('Putatively matched points in I1', 'Putatively matched points in I2');
 A = matchedPoints1.Location;
 B = matchedPoints2.Location;
 
-[R,t] = rigid_transform(A.',B.')
+[R,t] = rigid_transform(A.',B.');
 tform2 = rigid2d(R,t');
 
 %% show rectified
