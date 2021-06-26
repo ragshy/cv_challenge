@@ -49,6 +49,6 @@ tform2 = rigid2d(R,t');
 %% show rectified
 I2_Rect = imwarp(I2_cropped,tform2);
 figure;
-imshowpair(I1_cropped,I2_Rect,'montage')
+imshowpair(I1_cropped,I2_Rect,'montage');
 
 end

@@ -1,18 +1,15 @@
 function [I1_cropped,registered2] = rectify2(ImageName1,ImageName2)
 
-I1 = imread('Datasets/Wiesn/2020_03.jpg');
-I2  = imread('Datasets/Wiesn/2021_06.jpg');
+%ImageName1 = imread('Datasets/Dubai/2005_12.jpg');
+%ImageName2 = imread('Datasets/Dubai/2010_12.jpg');
 
 crop = [0,0,1570,1000];
 
-I1_cropped = imcrop(I1,crop);
-I2_cropped = imcrop(I2,crop);
+I1_cropped = imcrop(ImageName1,crop);
+I2_cropped = imcrop(ImageName2,crop);
 
-%I1_cropped = imcrop(ImageName1,crop);
-%I2_cropped = imcrop(ImageName2,crop);
-
-figure
-imshowpair(I1_cropped,I2_cropped,'montage');
+%figure;
+%imshowpair(I1_cropped,I2_cropped,'montage');
 
 %% Find matching features
 
@@ -30,25 +27,33 @@ feat2 = detectSURFFeatures(I2gray, 'MetricThreshold', 500);
 
 % Matching
 indexPairs = matchFeatures(features1, features2, 'Metric', 'SAD', ...
-  'MatchThreshold',4);
+  'MatchThreshold', 5);
 
 matchedPoints1 = validBlobs1(indexPairs(:,1),:);
 matchedPoints2 = validBlobs2(indexPairs(:,2),:);
 
-% figure;
-% showMatchedFeatures(I1_cropped, I2_cropped, matchedPoints1, matchedPoints2);
+%figure;
+%showMatchedFeatures(I1_cropped, I2_cropped, matchedPoints1, matchedPoints2);
 
+%% Calculate Robust features
+
+[~, inliers] = estimateFundamentalMatrix(matchedPoints1,matchedPoints2,'NumTrials',2000);
+matchedPoints1_robust = matchedPoints1(inliers,:);
+matchedPoints2_robust = matchedPoints2(inliers,:);
+
+%figure;
+%showMatchedFeatures(I1_cropped, I2_cropped, matchedPoints1_robust, matchedPoints2_robust);
 
 %% Image Transformation
 
-tform = fitgeotrans(matchedPoints2.Location,matchedPoints1.Location,'projective');
+tform = fitgeotrans(matchedPoints2_robust.Location,matchedPoints1_robust.Location,'projective');
 
 Rfixed = imref2d(size(I1_cropped));
 
 registered2 = imwarp(I2_cropped,tform,'OutputView',Rfixed);
 
-figure
-imshowpair(I1_cropped,registered2,'blend');
+%figure;
+%imshowpair(I1_cropped,registered2,'blend');
 %figure
 %imshow(I1_cropped);
 %figure
