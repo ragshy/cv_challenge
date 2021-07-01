@@ -1,7 +1,7 @@
 function [I1_cropped,registered2] = rectify2(ImageName1,ImageName2)
 
-%ImageName1 = imread('Datasets/Dubai/2005_12.jpg');
-%ImageName2 = imread('Datasets/Dubai/2010_12.jpg');
+ImageName1 = imread('Datasets/Dubai/1990_12.jpg');
+ImageName2 = imread('Datasets/Dubai/2010_12.jpg');
 
 crop = [0,0,1570,1000];
 
@@ -27,7 +27,7 @@ feat2 = detectSURFFeatures(I2gray, 'MetricThreshold', 500);
 
 % Matching
 indexPairs = matchFeatures(features1, features2, 'Metric', 'SAD', ...
-  'MatchThreshold', 5);
+  'MatchThreshold', 100);
 
 matchedPoints1 = validBlobs1(indexPairs(:,1),:);
 matchedPoints2 = validBlobs2(indexPairs(:,2),:);

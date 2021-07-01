@@ -1,4 +1,4 @@
-function [robust_correspondences] = ransac(correspondences, varargin)
+function [correspondences_robust] = ransac(correspondences, varargin)
 % This function implements the RANSAC algorithm to determine 
 % robust corresponding image points
        
