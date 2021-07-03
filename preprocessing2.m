@@ -1,8 +1,8 @@
 function [I1_cropped,registered2] = preprocessing2(ImageName1,ImageName2)
 
 % Read images for testing purposes
-ImageName1 = imread('Datasets/Wiesn/2015_06.jpg');
-ImageName2 = imread('Datasets/Wiesn/2015_10.jpg');
+%ImageName1 = imread('Datasets/Wiesn/2015_06.jpg');
+%ImageName2 = imread('Datasets/Wiesn/2015_10.jpg');
 
 % Crop watermark
 crop = [0,0,1570,1000];
@@ -74,8 +74,8 @@ if ~isempty(ME)
     registered2 = imwarp(I2_cropped,tform,'OutputView',Rfixed);
     
     % Show output for testing purposes
-    figure;
-    imshowpair(I1_cropped,registered2,'blend');
+    %figure;
+    %imshowpair(I1_cropped,registered2,'blend');
     
 end
 
