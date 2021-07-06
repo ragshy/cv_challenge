@@ -26,6 +26,6 @@ for i = 1:N
     subplot(2, 2, 2);
     imshow(J);
     what = string(LAB_mean.segment_type)=='snow';
-    mask = imsegDeltaE(J,LAB_mean{what,1:3},20);
+    mask = imsegDeltaE(J,LAB_mean{5,1:3},20);
     
 end
