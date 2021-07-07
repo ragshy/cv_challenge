@@ -1,8 +1,8 @@
 function [I1_cropped,registered2] = preprocessing2(ImageName1,ImageName2)
 
 % Read images for testing purposes
-%ImageName1 = imread('Datasets/Wiesn/2015_06.jpg');
-%ImageName2 = imread('Datasets/Wiesn/2015_10.jpg');
+%ImageName1 = imread('Datasets/Dubai/1990_12.jpg');
+%ImageName2 = imread('Datasets/Dubai/2020_12.jpg');
 
 % Crop watermark
 crop = [0,0,1570,1000];
@@ -13,10 +13,20 @@ I2_cropped = imcrop(ImageName2,crop);
 I1gray = imadjust(rgb2gray(I1_cropped));
 I2gray = imadjust(rgb2gray(I2_cropped));
 
+%I1cont = imfilter(histeq(I1gray,10),fspecial('sobel'));
+%I2cont = imfilter(histeq(I2gray,10),fspecial('sobel'));
+%I1cont = histeq(I1gray);
+%I2cont = histeq(I2gray);
+I1cont = I1gray;
+I2cont = I2gray;
+
+%figure;
+%montage({I1gray,I1cont,I2gray,I2cont},'Size',[1 4])
+
 % Find features using SURF
 % Feature detector
-feat1 = detectSURFFeatures(I1gray, 'MetricThreshold', 500);
-feat2 = detectSURFFeatures(I2gray, 'MetricThreshold', 500);
+feat1 = detectSURFFeatures(I1cont, 'MetricThreshold', 100);
+feat2 = detectSURFFeatures(I2cont, 'MetricThreshold', 100);
 
 % Feature descriptor
 [features1, validBlobs1] = extractFeatures(I1gray, feat1);
@@ -45,8 +55,8 @@ try
     registered2 = imwarp(I2_cropped,tform,'OutputView',Rfixed);   
     
     % Show output for testing purposes
-    figure;
-    imshowpair(I1_cropped,registered2,'blend');
+    %figure;
+    %imshowpair(I1_cropped,registered2,'blend');
     
 catch ME
 if ~isempty(ME)
