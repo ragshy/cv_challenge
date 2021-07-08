@@ -55,9 +55,9 @@ try
     registered2 = imwarp(I2_cropped,tform,'OutputView',Rfixed);   
     
     % Show output for testing purposes
-    figure;
-    imshowpair(I1_cropped,registered2,'diff');
-    title('1');
+    %figure;
+    %imshowpair(I1_cropped,registered2,'diff');
+    %title('1');
     
 catch ME
 if ~isempty(ME)
@@ -96,9 +96,9 @@ if ~isempty(ME)
     registered2 = imwarp(I2_cropped,tform,'OutputView',Rfixed);
     
     % Show output for testing purposes
-    figure;
-    imshowpair(I1_cropped,registered2,'diff');
-    title('2');
+    %figure;
+    %imshowpair(I1_cropped,registered2,'diff');
+    %title('2');
 end   
     
 end
