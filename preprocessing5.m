@@ -1,8 +1,8 @@
-function [I1_cropped,registered2] = preprocessing2(ImageName1,ImageName2)
+function [I1_cropped,registered2] = preprocessing5(ImageName1,ImageName2)
 
 % Read images for testing purposes
-%ImageName1 = imread('Datasets/Dubai/1990_12.jpg');
-%ImageName2 = imread('Datasets/Dubai/2020_12.jpg');
+%ImageName1 = imread('Datasets/Wiesn/2015_06.jpg');
+%ImageName2 = imread('Datasets/Wiesn/2019_09.jpg');
 
 % Crop watermark
 crop = [0,0,1570,1000];
@@ -25,8 +25,8 @@ I2cont = I2gray;
 
 % Find features using SURF
 % Feature detector
-feat1 = detectSURFFeatures(I1cont, 'MetricThreshold', 100);
-feat2 = detectSURFFeatures(I2cont, 'MetricThreshold', 100);
+feat1 = detectSURFFeatures(I1cont, 'MetricThreshold', 300);
+feat2 = detectSURFFeatures(I2cont, 'MetricThreshold', 300);
 
 % Feature descriptor
 [features1, validBlobs1] = extractFeatures(I1gray, feat1);
@@ -55,12 +55,24 @@ try
     registered2 = imwarp(I2_cropped,tform,'OutputView',Rfixed);   
     
     % Show output for testing purposes
-    %figure;
-    %imshowpair(I1_cropped,registered2,'blend');
+    figure;
+    imshowpair(I1_cropped,registered2,'diff');
+    title('1');
     
 catch ME
 if ~isempty(ME)
-    
+
+    %figure;
+    %montage({I1gray,I1cont,I2gray,I2cont},'Size',[1 4])
+
+    % Find features using SURF
+    % Feature detector
+    feat1 = detectSURFFeatures(I1cont, 'MetricThreshold', 500);
+    feat2 = detectSURFFeatures(I2cont, 'MetricThreshold', 500);
+
+    % Feature descriptor
+    [features2, validBlobs2] = extractFeatures(I2gray, feat2);
+        
     % Select N strongest features for kNN search
     strongestPoints = selectStrongest(feat1,200);
     [features1_strongest, validBlobs1_strongest] = extractFeatures(I1gray, strongestPoints);
@@ -77,17 +89,18 @@ if ~isempty(ME)
     %showMatchedFeatures(I1_cropped, I2_cropped, matchedPoints1_kNN, matchedPoints2_kNN);
 
     % Get image transformation for image registration
-    tform = estimateGeometricTransform2D(matchedPoints2_kNN,matchedPoints1_kNN,'rigid');
+    tform = estimateGeometricTransform2D(matchedPoints2_kNN,matchedPoints1_kNN,'similarity');
     
     % Calculate image registration
     Rfixed = imref2d(size(I1_cropped));
     registered2 = imwarp(I2_cropped,tform,'OutputView',Rfixed);
     
     % Show output for testing purposes
-    %figure;
-    %imshowpair(I1_cropped,registered2,'blend');
+    figure;
+    imshowpair(I1_cropped,registered2,'diff');
+    title('2');
+end   
     
 end
 
 end
-
