@@ -1,8 +1,8 @@
-function [I1_cropped,registered2] = preprocessing2(ImageName1,ImageName2)
+function [I1_cropped,registered2] = preprocessing3(ImageName1,ImageName2)
 
 % Read images for testing purposes
-ImageName1 = imread('Datasets/Wiesn/2015_06.jpg');
-ImageName2 = imread('Datasets/Wiesn/2019_09.jpg');
+%ImageName1 = imread('Datasets/Wiesn/2015_06.jpg');
+%ImageName2 = imread('Datasets/Wiesn/2019_09.jpg');
 
 % Crop watermark
 crop = [0,0,1570,1000];
