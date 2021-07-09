@@ -6,8 +6,7 @@ mask_size = size(mask);
 months = {'Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', ...
   'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'};
 counter = 1;
-% baseFileName = load('basefileName.mat');
-% baseFileName = baseFileName.baseFileName_save;
+
 for Cellname = baseFileName
     FileName = char(Cellname);
     monthNumber = (FileName(6:7)); 
@@ -44,55 +43,55 @@ else
 end
 %% Histogram and detection of user input
 
-% xticks(1:length(baseFileName));
-% b = bar(N,'stacked'); %1.Element Rest/2.Element gewählte Option
-% set(gca, 'XTickLabel',date);
-% 
-% switch(str)
-%     case 'all'
-%         disp(str)
-%         %Spaltennummer: 1:'Earth/Forest'/2:Water/3:Snow/4:Manmade/5:Land
-%     case {'Forest','forest'}
-%         b(1).DisplayName = 'Rest';
-%         b(2).DisplayName = 'Forest';
-%         b(1).FaceColor = [0.172549019607843,0.266666666666667,0.333333333333333];
-%         b(2).FaceColor = [0.4660, 0.6740, 0.1880];
-%     case {'Water','water'}
-%         b(1).DisplayName = 'Rest';
-%         b(2).DisplayName = 'Water';
-%         b(1).FaceColor = [0.172549019607843,0.266666666666667,0.333333333333333];
-%         b(2).FaceColor = [0.5843 0.8157 0.9882];
-%     case {'Snow','snow'} 
-%         b(1).DisplayName = 'Rest';
-%         b(2).DisplayName = 'Snow';
-%         b(1).FaceColor = [0.172549019607843,0.266666666666667,0.333333333333333];
-%         b(2).FaceColor = [0.874509803921569,0.898039215686275,0.929411764705882];
-%     case {'Manmade','manmade'}
-%         b(1).DisplayName = 'Rest';
-%         b(2).DisplayName = 'Manmade';
-%         b(1).FaceColor = [0.172549019607843,0.266666666666667,0.333333333333333];
-%         b(2).FaceColor = [0.3 0.5 0.4];
-%     case {'Land','land'}
-%         b(1).DisplayName = 'Rest';
-%         b(2).DisplayName = 'Land';
-%         b(1).FaceColor = [0.172549019607843,0.266666666666667,0.333333333333333];
-%         b(2).FaceColor = [0.8608 0.7608 0.6627];
-% end
-% fontSize = 16;      
-% caption = sprintf('Area Fractions Of Each Color Class');
-% xlabel('Datetime', 'FontSize', fontSize);
-% ylabel('Area Fraction', 'FontSize', fontSize);
-% title(caption, 'FontSize', fontSize, 'Interpreter', 'None');
-% legend show
-% grid on;
-% 
-% try
-%     hObject = histogram(N, 'normalization', 'probability','bar');
-% catch
-%     fprintf('Trailing input arguments must occur in name-value pairs %%s, skipped.\n');
-% end
-% end
-% 
+xticks(1:length(baseFileName));
+b = bar(N,'stacked'); %1.Element Rest/2.Element gewählte Option
+set(gca, 'XTickLabel',date);
+
+switch(str)
+    case 'all'
+        disp(str)
+        %Spaltennummer: 1:'Earth/Forest'/2:Water/3:Snow/4:Manmade/5:Land
+    case {'Forest','forest'}
+        b(1).DisplayName = 'Rest';
+        b(2).DisplayName = 'Forest';
+        b(1).FaceColor = [0.172549019607843,0.266666666666667,0.333333333333333];
+        b(2).FaceColor = [0.4660, 0.6740, 0.1880];
+    case {'Water','water'}
+        b(1).DisplayName = 'Rest';
+        b(2).DisplayName = 'Water';
+        b(1).FaceColor = [0.172549019607843,0.266666666666667,0.333333333333333];
+        b(2).FaceColor = [0.5843 0.8157 0.9882];
+    case {'Snow','snow'} 
+        b(1).DisplayName = 'Rest';
+        b(2).DisplayName = 'Snow';
+        b(1).FaceColor = [0.172549019607843,0.266666666666667,0.333333333333333];
+        b(2).FaceColor = [0.874509803921569,0.898039215686275,0.929411764705882];
+    case {'Manmade','manmade'}
+        b(1).DisplayName = 'Rest';
+        b(2).DisplayName = 'Manmade';
+        b(1).FaceColor = [0.172549019607843,0.266666666666667,0.333333333333333];
+        b(2).FaceColor = [0.3 0.5 0.4];
+    case {'Land','land'}
+        b(1).DisplayName = 'Rest';
+        b(2).DisplayName = 'Land';
+        b(1).FaceColor = [0.172549019607843,0.266666666666667,0.333333333333333];
+        b(2).FaceColor = [0.8608 0.7608 0.6627];
+end
+fontSize = 16;      
+caption = sprintf('Area Fractions Of Each Color Class');
+xlabel('Datetime', 'FontSize', fontSize);
+ylabel('Area Fraction', 'FontSize', fontSize);
+title(caption, 'FontSize', fontSize, 'Interpreter', 'None');
+legend show
+grid on;
+
+try
+    hObject = histogram(N, 'normalization', 'probability','bar');
+catch
+    fprintf('Trailing input arguments must occur in name-value pairs %%s, skipped.\n');
+end
+end
+
 
 
 
