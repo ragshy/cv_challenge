@@ -1,5 +1,5 @@
         % Function to segmented all images  
-function  [N,b] = Statistic(mask,str,baseFileName)
+function  [N, image] = Statistic(mask,str,baseFileName)
 %% Month/Year Calculations for graphics
 
 mask_size = size(mask);
@@ -84,12 +84,8 @@ ylabel('Area Fraction', 'FontSize', fontSize);
 title(caption, 'FontSize', fontSize, 'Interpreter', 'None');
 legend show
 grid on;
-
-try
-    hObject = histogram(N, 'normalization', 'probability','bar');
-catch
-    fprintf('Trailing input arguments must occur in name-value pairs %%s, skipped.\n');
-end
+saveas(gcf,'Barchart.png');
+image = imread('Barchart.png');
 end
 
 
