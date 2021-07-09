@@ -32,10 +32,10 @@ deltab = bChannel - bStandard;
 deltaE = sqrt(deltaL .^ 2 + deltaa .^ 2 + deltab .^ 2);
 
 % Display the Delta E image - the delta E over the entire image.
-subplot(2, 2, 3);
-imshow(deltaE, []);
-caption = sprintf('Delta E Image\n(Darker = Better Match)');
-title(caption, 'FontSize', 12);
+% subplot(2, 2, 3);
+% imshow(deltaE, []);
+% caption = sprintf('Delta E Image\n(Darker = Better Match)');
+% title(caption, 'FontSize', 12);
 
 
 %% Find pixels within that delta E.
@@ -46,10 +46,10 @@ binaryImage = deltaE <= tolerance;
 
 % Mask the image with the matching colors and extract those pixels.
 matchingColors = bsxfun(@times, rgbImage, cast(binaryImage, class(rgbImage)));
-subplot(2, 2, 4);
-imshow(matchingColors);
-caption = sprintf('Matching Colors (Delta E <= %.1f)', tolerance);
-title(caption, 'FontSize', 12);
+% subplot(2, 2, 4);
+% imshow(matchingColors);
+% caption = sprintf('Matching Colors (Delta E <= %.1f)', tolerance);
+% title(caption, 'FontSize', 12);
 
 % % Mask the image with the NON-matching colors and extract those pixels.
 nonMatchingColors = bsxfun(@times, rgbImage, cast(~binaryImage, class(rgbImage)));

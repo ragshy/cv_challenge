@@ -1,4 +1,4 @@
-function [I1_cropped,registered2] = preprocessing5(ImageName1,ImageName2)
+function [I1_cropped,registered2,tform] = preprocessing5(ImageName1,ImageName2)
 
 % Read images for testing purposes
 %ImageName1 = imread('Datasets/Wiesn/2015_06.jpg');
