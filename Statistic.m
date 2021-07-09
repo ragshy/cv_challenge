@@ -83,7 +83,7 @@ switch(str)
         b(1).DisplayName = 'Rest';
         b(2).DisplayName = 'Land';
         b(1).FaceColor = [0.172549019607843,0.266666666666667,0.333333333333333];
-        b(2).FaceColor = [0.3 0.5 0.4];
+        b(2).FaceColor = [0.8608 0.7608 0.6627];
 end
 fontSize = 16;      
 caption = sprintf('Area Fractions Of Each Color Class');
