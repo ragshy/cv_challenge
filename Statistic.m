@@ -1,5 +1,5 @@
         % Function to segmented all images  
-function N = Statistic(mask,str)
+function  [N,b] = Statistic(mask,str)
 %% Month/Year Calculations for graphics
 
 mask_size = size(mask);
