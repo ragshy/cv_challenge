@@ -47,9 +47,9 @@ for i = 1: size(mask,1)
         N(i,6) = 1 - sum(N(i,:));
     else
         [val, idx] = max(N(i,:));
-        remains = sum(N(i,:)) - 1;
-        rami_special = val - remains;
-        N(i,idx) = rami_special; 
+        N(i,:) = N(i,:)./sum(N(i,:));
+        %rami_special = val - remains;
+        %N(i,idx) = rami_special; 
     end
 end 
 else
@@ -101,7 +101,7 @@ switch(str)
         b(1).DisplayName = 'Rest';
         b(2).DisplayName = 'City';
         b(1).FaceColor = [0.172549019607843,0.266666666666667,0.333333333333333];
-        b(2).FaceColor = [0.3 0.5 0.4];
+        b(2).FaceColor = [0.6, 0, 0];
     case {'Land','land'}
         b(1).DisplayName = 'Rest';
         b(2).DisplayName = 'Land';
