@@ -25,9 +25,9 @@ if strcmpi(str,'all')
                elu = mask{each_image,each_mask}; 
                absolute_num = histcounts(elu); 
                rel_num = absolute_num./sum(absolute_num);
-               if any(rel_num < 0.03)
-                   rel_num = [1 0]; 
-               end
+%                if any(rel_num < 0.03)
+%                    rel_num = [1 0]; 
+%                end
                N_save(each_image,:) = rel_num;
                N{each_mask}=N_save;
         end 
@@ -41,15 +41,15 @@ end
 N = probability_save;
 N = cell2mat(N);
 % N(1,5) = 0.3;
-%Erkennung der Restprozente
+% Erkennung der Restprozente
 for i = 1: size(mask,1)
     if sum(N(i,:)) < 1
         N(i,6) = 1 - sum(N(i,:));
     else
         [val, idx] = max(N(i,:));
         remains = sum(N(i,:)) - 1;
-        cheat = val - remains;
-        N(i,idx) = cheat; 
+        rami_special = val - remains;
+        N(i,idx) = rami_special; 
     end
 end 
 else
@@ -76,10 +76,12 @@ switch(str)
         b(3).FaceColor = [0.5843 0.8157 0.9882];
         b(4).DisplayName = 'Land';
         b(4).FaceColor = [0.8608 0.7608 0.6627];
-        b(5).DisplayName = 'Manmade';
+        b(5).DisplayName = 'City';
         b(5).FaceColor = [0.6, 0, 0]; %[0.3 0.5 0.4];
-        b(6).DisplayName = 'Rest';
-        b(6).FaceColor = [0.172549019607843,0.266666666666667,0.333333333333333];
+        if size(N,2) == 6
+            b(6).DisplayName = 'Rest';
+            b(6).FaceColor = [0.172549019607843,0.266666666666667,0.333333333333333];
+        end
     case {'Forest','forest'}
         b(1).DisplayName = 'Rest';
         b(2).DisplayName = 'Forest';
@@ -97,7 +99,7 @@ switch(str)
         b(2).FaceColor = [0.874509803921569,0.898039215686275,0.929411764705882];
     case {'Manmade','manmade'}
         b(1).DisplayName = 'Rest';
-        b(2).DisplayName = 'Manmade';
+        b(2).DisplayName = 'City';
         b(1).FaceColor = [0.172549019607843,0.266666666666667,0.333333333333333];
         b(2).FaceColor = [0.3 0.5 0.4];
     case {'Land','land'}
