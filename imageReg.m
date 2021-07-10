@@ -1,17 +1,17 @@
-function [I1_cropped,registered2,tform] = preprocessing5(ImageName1,ImageName2)
+function [ImageName1,registered2,tform] = imageReg(ImageName1,ImageName2)
 
 % Read images for testing purposes
 %ImageName1 = imread('Datasets/Wiesn/2015_06.jpg');
 %ImageName2 = imread('Datasets/Wiesn/2019_09.jpg');
 
 % Crop watermark
-crop = [0,0,1570,1000];
-I1_cropped = imcrop(ImageName1,crop);
-I2_cropped = imcrop(ImageName2,crop);
+% crop = [0,0,1570,1000];
+% I1_cropped = imcrop(ImageName1,crop);
+% I2_cropped = imcrop(ImageName2,crop);
 
 % Convert to grayscale.
-I1gray = imadjust(rgb2gray(I1_cropped));
-I2gray = imadjust(rgb2gray(I2_cropped));
+I1gray = imadjust(rgb2gray(ImageName1));
+I2gray = imadjust(rgb2gray(ImageName2));
 
 %I1cont = imfilter(histeq(I1gray,10),fspecial('sobel'));
 %I2cont = imfilter(histeq(I2gray,10),fspecial('sobel'));
@@ -51,8 +51,8 @@ try
     tform = estimateGeometricTransform2D(matchedPoints2_SURF,matchedPoints1_SURF,'rigid');
     
     % Calculate image registration
-    Rfixed = imref2d(size(I1_cropped));
-    registered2 = imwarp(I2_cropped,tform,'OutputView',Rfixed);   
+    Rfixed = imref2d(size(ImageName1));
+    registered2 = imwarp(ImageName2,tform,'OutputView',Rfixed);   
     
     % Show output for testing purposes
     %figure;
@@ -92,8 +92,8 @@ if ~isempty(ME)
     tform = estimateGeometricTransform2D(matchedPoints2_kNN,matchedPoints1_kNN,'similarity');
     
     % Calculate image registration
-    Rfixed = imref2d(size(I1_cropped));
-    registered2 = imwarp(I2_cropped,tform,'OutputView',Rfixed);
+    Rfixed = imref2d(size(ImageName1));
+    registered2 = imwarp(ImageName2,tform,'OutputView',Rfixed);
     
     % Show output for testing purposes
     %figure;
