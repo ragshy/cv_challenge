@@ -1,5 +1,5 @@
         % Function to segmented all images  
-function  [N, image] = Statistic(mask,str,baseFileName)
+function  [N,image] = Statistic(mask,str,baseFileName)
 %% Month/Year Calculations for graphics
 
 mask_size = size(mask);
@@ -16,7 +16,6 @@ for Cellname = baseFileName
     counter = counter +1;
 end
 %% Probability Calculations
-%Forest=1/snow=2/water=3/land=4/city=5
 N_save = zeros(size(mask,1),2);
 N = cell(1,size(mask,2));
 % Load prototypes
@@ -33,7 +32,26 @@ if strcmpi(str,'all')
                N{each_mask}=N_save;
         end 
     end
-
+for i = 1: size(mask,2)
+    for j = 1: size(mask,1)
+        probability{j,1} = N{1,i}(j,2);
+    end
+    probability_save(:,i) = probability;
+end
+N = probability_save;
+N = cell2mat(N);
+% N(1,5) = 0.3;
+%Erkennung der Restprozente
+for i = 1: size(mask,1)
+    if sum(N(i,:)) < 1
+        N(i,6) = 1 - sum(N(i,:));
+    else
+        [val, idx] = max(N(i,:));
+        remains = sum(N(i,:)) - 1;
+        cheat = val - remains;
+        N(i,idx) = cheat; 
+    end
+end 
 else
     for each_image = 1:size(mask,1)               
             N_save(each_image,:) = histcounts(mask{each_image}); 
@@ -42,15 +60,26 @@ else
     end
 end
 %% Histogram and detection of user input
-
+FigH = figure('Position', get(0, 'Screensize'));
+F    = getframe(FigH);
 xticks(1:length(baseFileName));
-b = bar(N,'stacked'); %1.Element Rest/2.Element gewählte Option
+b = bar(N,'stacked'); %Forest=1/snow=2/water=3/land=4/city=5
 set(gca, 'XTickLabel',date);
 
 switch(str)
     case 'all'
-        disp(str)
-        %Spaltennummer: 1:'Earth/Forest'/2:Water/3:Snow/4:Manmade/5:Land
+        b(1).DisplayName = 'Forest';
+        b(1).FaceColor = [0.4660, 0.6740, 0.1880];
+        b(2).DisplayName = 'Snow';
+        b(2).FaceColor = [0.874509803921569,0.898039215686275,0.929411764705882];
+        b(3).DisplayName = 'Water';
+        b(3).FaceColor = [0.5843 0.8157 0.9882];
+        b(4).DisplayName = 'Land';
+        b(4).FaceColor = [0.8608 0.7608 0.6627];
+        b(5).DisplayName = 'Manmade';
+        b(5).FaceColor = [0.6, 0, 0]; %[0.3 0.5 0.4];
+        b(6).DisplayName = 'Rest';
+        b(6).FaceColor = [0.172549019607843,0.266666666666667,0.333333333333333];
     case {'Forest','forest'}
         b(1).DisplayName = 'Rest';
         b(2).DisplayName = 'Forest';
@@ -87,7 +116,3 @@ grid on;
 saveas(gcf,'Barchart.png');
 image = imread('Barchart.png');
 end
-
-
-
-
