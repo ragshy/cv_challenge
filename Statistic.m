@@ -1,5 +1,5 @@
         % Function to segmented all images  
-function  [N,image_statistic,image_area] = Statistic(mask,str,imagesAll,baseFileName)
+function  [N,FigH,FigH2] = Statistic(mask,str,imagesAll,baseFileName)
 %% Month/Year Calculations for graphics
 
 mask_size = size(mask);
@@ -188,10 +188,10 @@ switch(str)
 end
 legend show
 grid on;
-saveas(FigH,'Barchart.png');
-saveas(FigH2,'Area.png');
+%saveas(FigH,'Barchart.png');
+%saveas(FigH2,'Area.png');
 % image = montage({'Barchart.png','Area.png'});
-image_statistic = imread('Barchart.png');
-image_area = imread('Area.png');
+%image_statistic = imread('Barchart.png');
+%image_area = imread('Area.png');
 
 end
