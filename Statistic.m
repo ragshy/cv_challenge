@@ -88,7 +88,7 @@ for i = 1:P
 end
 %% Histogram and detection of user input
 %Figure for sections 
-FigH = figure('Position', get(0, 'Screensize'),'visible','off');
+FigH = figure('Position', get(0, 'Screensize'));
 xticks(1:length(baseFileName));
 b = bar(N,'stacked'); 
 set(gca, 'XTickLabel',date);
@@ -98,10 +98,12 @@ xlabel('Datetime', 'FontSize', fontSize);
 ylabel('Relative Area Fraction', 'FontSize', fontSize);
 % ytickformat(gca, 'percentage');
 title(caption, 'FontSize', fontSize, 'Interpreter', 'None');
+legend show
+grid on;
 
 
 %Figure for Areas calculations 
-FigH2 = figure('Position', get(0, 'Screensize'),'visible','off');
+FigH2 = figure('Position', get(0, 'Screensize'));
 xticks(1:length(baseFileName));
 area = bar(A_N,'stacked'); 
 set(gca, 'XTickLabel',date);
@@ -110,6 +112,8 @@ caption = sprintf('Area Detection');
 xlabel('Datetime', 'FontSize', fontSize);
 ylabel('Absolute Area Fraction in m²', 'FontSize', fontSize);
 title(caption, 'FontSize', fontSize, 'Interpreter', 'None');
+legend show
+grid on;
 
 
 switch(str)
@@ -186,13 +190,9 @@ switch(str)
         b(2).FaceColor = [0.8608 0.7608 0.6627];
         area(2).FaceColor = [0.8608 0.7608 0.6627];
 end
-legend show
-grid on;
+
 saveas(FigH,'Barchart.png');
 saveas(FigH2,'Area.png');
-%image = montage({'Barchart.png','Area.png'});
-%saveas(image,'StatisticsPlot.png');
-%stats = imread('StatisticsPlot.png');
 image_statistic = imread('Barchart.png');
 image_area = imread('Area.png');
 
