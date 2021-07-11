@@ -88,7 +88,7 @@ for i = 1:P
 end
 %% Histogram and detection of user input
 %Figure for sections 
-FigH = figure('Position', get(0, 'Screensize'));
+FigH = figure('Position', get(0, 'Screensize'),'visible','off');
 xticks(1:length(baseFileName));
 b = bar(N,'stacked'); 
 set(gca, 'XTickLabel',date);
@@ -103,7 +103,7 @@ grid on;
 
 
 %Figure for Areas calculations 
-FigH2 = figure('Position', get(0, 'Screensize'));
+FigH2 = figure('Position', get(0, 'Screensize'),'visible','off');
 xticks(1:length(baseFileName));
 area = bar(A_N,'stacked'); 
 set(gca, 'XTickLabel',date);
